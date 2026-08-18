@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>科创OKR管理机制 · 竞赛部工作台</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 顶部栏 -->
+  <header>
+    <div class="brand">🚀 科创OKR管理机制 <span class="sub">五级管线 · 灵活周期 · 动态跟踪 · 成长徽章</span></div>
+    <div class="header-right">
+      <span class="sync-status" id="syncStatus"></span>
+      <span class="user-badge" id="userBadge"></span>
+      <button class="btn" data-act="switch-user">🔄 切换身份</button>
+    </div>
+  </header>
+
+  <!-- 全局日期/时间筛选器（三界面均配备，顶部固定） -->
+  <div class="filter-bar">
+    <span class="label">📆 时间筛选器：</span>
+    <button class="chip" data-act="filter" data-mode="all">全部时间</button>
+    <button class="chip" data-act="filter" data-mode="today">今天</button>
+    <button class="chip" data-act="filter" data-mode="week">本周</button>
+    <button class="chip" data-act="filter" data-mode="custom">自定义区间</button>
+    <input type="date" id="filterFrom" title="起始日期">
+    <span>~</span>
+    <input type="date" id="filterTo" title="结束日期">
+    <button class="btn btn-sm btn-primary" data-act="filter-apply">应用区间</button>
+    <span class="filter-hint" id="filterHint"></span>
+  </div>
+
+  <!-- 角色导航 -->
+  <nav class="tabs" id="mainNav"></nav>
+
+  <!-- 主内容区 -->
+  <main id="viewRoot"></main>
+
+  <footer>科创OKR管理机制 · 共享版（由 node server.js 提供多人实时协作；所有角色密码登录，主席可在组织管理中设置全员密码） · 沟通引导：写不出来的空，就是你还没想清楚的地方——先找部长聊十分钟。</footer>
+
+  <!-- 弹层容器 -->
+  <div id="loginOverlay" class="overlay hidden"></div>
+  <div id="modalRoot"></div>
+  <div id="toastRoot"></div>
+
+  <!-- 打印区（导出PDF使用） -->
+  <div id="printArea"></div>
+
+  <script src="js/firebase-config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/views.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
