@@ -102,7 +102,7 @@
 
   /* ---------------- OKR 卡片渲染 ---------------- */
   function krRowHTML(kr, o, idx, opts) {
-    var lastUp = kr.updates.length ? kr.updates[kr.updates.length - 1] : null;
+    var lastUp = (kr.updates && kr.updates.length) ? kr.updates[kr.updates.length - 1] : null;
     var actions = '';
     if (opts.canProgress) {
       actions = '<button class="btn btn-sm btn-primary" data-act="okr-progress" data-id="' + o.id + '" data-kr="' + kr.id + '">更新进度</button>';
@@ -439,7 +439,7 @@
       sos.forEach(function (o) {
         red += S.okrRedKRs(o).length;
         o.krs.forEach(function (k) {
-          if (k.updates.length) {
+          if (k.updates && k.updates.length) {
             var lu = k.updates[k.updates.length - 1];
             if (lastDate === '—' || lu.date > lastDate) { lastDate = lu.date; lastNote = lu.note || '（无备注，仅更新进度）'; }
           }

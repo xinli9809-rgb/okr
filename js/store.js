@@ -216,6 +216,14 @@
     S.db.milestones = Array.isArray(S.db.milestones) ? S.db.milestones : [];
     S.db.okrs = Array.isArray(S.db.okrs) ? S.db.okrs : [];
     S.db.reviews = Array.isArray(S.db.reviews) ? S.db.reviews : [];
+    // Firebase 会剥离空数组：为每条 KR 补回 updates 字段，防止渲染崩溃
+    S.db.okrs.forEach(function (o) {
+      if (!o || typeof o !== 'object') return;
+      o.krs = Array.isArray(o.krs) ? o.krs : [];
+      o.krs.forEach(function (k) {
+        if (k && !Array.isArray(k.updates)) k.updates = [];
+      });
+    });
   }
 
   S.setRemoteListener = function (cb) { S._remoteCb = cb; };
@@ -777,7 +785,7 @@
       var owner = S.getUser(o.ownerId);
       var mn = S.ministerOf(o.ownerId);
       o.krs.forEach(function (k) {
-        var lastUp = k.updates.length ? k.updates[k.updates.length - 1] : null;
+        var lastUp = (k.updates && k.updates.length) ? k.updates[k.updates.length - 1] : null;
         rows.push({
           dept: o.deptId ? S.deptName(o.deptId) : '主席团',
           owner: owner ? owner.name : '（成员已移除）', role: owner ? S.roleName(owner.role) : '',
@@ -818,7 +826,7 @@
       h += '<p class="print-o"><b>O：</b>' + S.esc(o.objective) + '</p>';
       o.krs.forEach(function (k) {
         h += '<div class="print-kr"><b>KR' + (o.krs.indexOf(k) + 1) + '（' + k.weight + '%）：</b>' + S.esc(k.text) + '<br>截止 ' + k.deadline + '　当前进度 ' + k.progress + '%';
-        if (k.updates.length) {
+        if (k.updates && k.updates.length) {
           h += '<ul>';
           k.updates.forEach(function (u) { h += '<li>' + u.date + '　进度' + u.progress + '%　' + S.esc(u.note) + '</li>'; });
           h += '</ul>';
